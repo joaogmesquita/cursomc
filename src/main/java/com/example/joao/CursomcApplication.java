@@ -1,5 +1,6 @@
 package com.example.joao;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +13,26 @@ import com.example.joao.domain.Cidade;
 import com.example.joao.domain.Cliente;
 import com.example.joao.domain.Endereco;
 import com.example.joao.domain.Estado;
+import com.example.joao.domain.Pagamento;
+import com.example.joao.domain.PagamentoComBoleto;
+import com.example.joao.domain.PagamentoComCartao;
+import com.example.joao.domain.Pedido;
 import com.example.joao.domain.Produto;
+import com.example.joao.domain.enums.EstadoPagamento;
 import com.example.joao.domain.enums.TipoCliente;
 import com.example.joao.repositories.CategoriaRepository;
 import com.example.joao.repositories.CidadeRepository;
 import com.example.joao.repositories.ClienteRepository;
 import com.example.joao.repositories.EnderecoRepository;
 import com.example.joao.repositories.EstadoRepository;
+import com.example.joao.repositories.PagamentoRepository;
+import com.example.joao.repositories.PedidoRepository;
 import com.example.joao.repositories.ProdutoRepository;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
+@EnableSwagger2
 public class CursomcApplication implements CommandLineRunner {
 	@Autowired
 	private CategoriaRepository rep;
@@ -35,6 +46,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -78,12 +93,27 @@ public class CursomcApplication implements CommandLineRunner {
 
 		Endereco en1 = new Endereco(null, "Rua das Flores", "300", "Ap 203", "Jardim", "00000111", cli1, c1);
 		Endereco en2 = new Endereco(null, "Rua dos Ratos", "30", "Ap 03", "Morro do Urubu", "352767537", cli1, c2);
-		
-		
+
 		cli1.getEnderecos().addAll(Arrays.asList(en1, en2));
 
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(en1, en2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, en1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, en2);
+
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"),
+				null);
+
+		ped2.setPagamento(pagto2);
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 
 	}
 
