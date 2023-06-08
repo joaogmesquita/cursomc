@@ -1,5 +1,6 @@
 package com.example.joao.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,15 @@ public class CategoriaService {
 		try {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new com.example.joao.services.exception.DataIntegrityViolationException("Não é possivel apagar categoria com produtos" );
-		
-			
-		}
-		
+			throw new com.example.joao.services.exception.DataIntegrityViolationException(
+					"Não é possivel apagar categoria com produtos");
 
+		}
+
+	}
+
+	public List<Categoria> findAll() {
+		return repo.findAll();
 	}
 
 }
