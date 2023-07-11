@@ -64,6 +64,7 @@ public class CategoriaService {
 
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+
 		return repo.findAll(pageRequest);
 
 	}

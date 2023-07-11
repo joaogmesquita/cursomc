@@ -63,27 +63,31 @@ public class CursomcApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Office");
+
 		Categoria cat3 = new Categoria(null, "Cama/Mesa e Banho");
 		Categoria cat4 = new Categoria(null, "Eletrõnicos");
 		Categoria cat5 = new Categoria(null, "Jardinagem");
 		Categoria cat6 = new Categoria(null, "Decoração");
 		Categoria cat7 = new Categoria(null, "Perfumaria");
-		
-		
-		
 
 		Produto p1 = new Produto(null, "Computador", 2000.00);
 		Produto p2 = new Produto(null, "Impressora", 800.00);
 		Produto p3 = new Produto(null, "Mouse", 80.00);
 
+		Produto p4 = new Produto(null, "Colcha", 10.00);
+		Produto p5 = new Produto(null, "Toalha de Banho", 8.00);
+
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
+		cat3.getProdutos().addAll(Arrays.asList(p4, p5));
 
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
+		p4.getCategorias().addAll(Arrays.asList(cat3));
+		p5.getCategorias().addAll(Arrays.asList(cat3));
 
-		rep.saveAll(Arrays.asList(cat1, cat2, cat3,cat4,cat5,cat6,cat7));
+		rep.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		prod.saveAll(Arrays.asList(p1, p2, p3));
 
 		Estado e1 = new Estado(null, "Maranhão");
@@ -134,12 +138,12 @@ public class CursomcApplication implements CommandLineRunner {
 
 		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
 		ped2.getItens().addAll(Arrays.asList(ip3));
-		
+
 		p1.getItens().addAll(Arrays.asList(ip1));
 		p2.getItens().addAll(Arrays.asList(ip3));
 		p3.getItens().addAll(Arrays.asList(ip2));
-		
-		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 
 	}
 
