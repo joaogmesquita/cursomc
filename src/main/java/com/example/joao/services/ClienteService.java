@@ -49,7 +49,7 @@ public class ClienteService {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new com.example.joao.services.exception.DataIntegrityViolationException(
-					"Não é possivel apagar Cliente com produtos");
+					"Não é possivel excluir pois há entidades relacionadas");
 
 		}
 
