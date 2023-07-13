@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.joao.domain.Cliente;
 import com.example.joao.domain.Cliente;
 import com.example.joao.dto.ClienteDTO;
+import com.example.joao.dto.ClienteNewDTO;
 import com.example.joao.services.ClienteService;
 
 import io.swagger.annotations.Api;
@@ -41,7 +42,7 @@ public class ClienteResources {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
 		Cliente obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -57,8 +58,8 @@ public class ClienteResources {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> delete(@PathVariable Integer id) {
-		service.delete(id);
+	public ResponseEntity<?> delete(@PathVariable Cliente obj) {
+		service.delete(obj);
 		return ResponseEntity.noContent().build();
 	}
 
